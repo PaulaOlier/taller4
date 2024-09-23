@@ -1,0 +1,14 @@
+D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\bin\Debug\net8.0\Taller4.exe
+D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\bin\Debug\net8.0\Taller4.deps.json
+D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\bin\Debug\net8.0\Taller4.runtimeconfig.json
+D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\bin\Debug\net8.0\Taller4.dll
+D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\bin\Debug\net8.0\Taller4.pdb
+D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\obj\Debug\net8.0\Taller4.GeneratedMSBuildEditorConfig.editorconfig
+D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\obj\Debug\net8.0\Taller4.AssemblyInfoInputs.cache
+D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\obj\Debug\net8.0\Taller4.AssemblyInfo.cs
+D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\obj\Debug\net8.0\Taller4.csproj.CoreCompileInputs.cache
+D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\obj\Debug\net8.0\Taller4.dll
+D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\obj\Debug\net8.0\refint\Taller4.dll
+D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\obj\Debug\net8.0\Taller4.pdb
+D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\obj\Debug\net8.0\Taller4.genruntimeconfig.cache
+D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\obj\Debug\net8.0\ref\Taller4.dll
