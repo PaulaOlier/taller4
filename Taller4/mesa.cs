@@ -10,6 +10,8 @@ namespace Taller4
 
         public int GetNumero() => Numero;
         public void SetNumero(int numero) => Numero = numero;
+        public List<Producto> GetProductos() => Productos;
+
 
         public void AgregarProducto(Producto producto) 
         {

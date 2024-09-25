@@ -16,11 +16,27 @@ namespace Taller4
             Fecha = DateTime.Now;
         }
 
-        public void GuardarFactura()
+        // Método para guardar la factura en un archivo CSV
+        public void GuardarFactura(string ruta)
         {
-            string ruta = "facturas.csv";
             string linea = $"{NumeroMesa},{Total},{Fecha}";
             File.AppendAllText(ruta, linea + Environment.NewLine);
+        }
+
+        // Método para imprimir la factura en formato tirilla
+        public void ImprimirFactura()
+        {
+            decimal impuestos = Total * 0.15m; // Ejemplo: 15% de impuestos
+            decimal propina = Total * 0.10m; // Ejemplo: 10% de propina
+            decimal totalConImpuestos = Total + impuestos + propina;
+
+            Console.WriteLine("Factura:");
+            Console.WriteLine($"Mesa: {NumeroMesa}");
+            Console.WriteLine($"Subtotal: {Total:C}");
+            Console.WriteLine($"Impuestos (15%): {impuestos:C}");
+            Console.WriteLine($"Propina (10%): {propina:C}");
+            Console.WriteLine($"Total: {totalConImpuestos:C}");
+            Console.WriteLine(new string('-', 20));
         }
     }
 }

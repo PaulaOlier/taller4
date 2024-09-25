@@ -7,6 +7,7 @@ namespace Taller4
     {
         private Menu menu;
         private List<Mesa> mesas;
+        private const string rutaFacturas = @"D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\facturas.csv"; // Ruta del archivo CSV de facturas
 
         public Restaurante()
         {
@@ -57,8 +58,11 @@ namespace Taller4
             if (mesa != null)
             {
                 mesa.ImprimirCuenta();
+
+                // Crear y guardar la factura
                 Factura factura = new Factura(numeroMesa, mesa.ObtenerTotal());
-                factura.GuardarFactura();
+                factura.ImprimirFactura(); // Imprimir la factura en formato tirilla
+                factura.GuardarFactura(rutaFacturas); // Guardar la factura en el archivo CSV
             }
             else
             {
