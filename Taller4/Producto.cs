@@ -1,4 +1,4 @@
-namespace Facturacion
+namespace Taller4
 {
     public class Producto
     {
