@@ -12,3 +12,4 @@ D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\obj\Debug\net8.0\refint\Taller4.
 D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\obj\Debug\net8.0\Taller4.pdb
 D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\obj\Debug\net8.0\Taller4.genruntimeconfig.cache
 D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\obj\Debug\net8.0\ref\Taller4.dll
+D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\obj\Debug\net8.0\Taller4.sourcelink.json

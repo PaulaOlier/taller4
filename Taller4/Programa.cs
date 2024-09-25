@@ -2,6 +2,7 @@ using System;
 
 namespace Taller4
 {
+    // Clase principal del programa
     class Programa
     {
         static void Main(string[] args)
@@ -39,59 +40,127 @@ namespace Taller4
                     case "2":
                         // Solicita al usuario los datos del nuevo producto y lo agrega al menú
                         Console.Write("Ingrese el ID del producto: ");
-                        int nuevoId = int.Parse(Console.ReadLine()); // Leer ID del producto
-                        Console.Write("Ingrese el nombre del producto: ");
-                        string? nuevoNombre = Console.ReadLine(); // Leer nombre del producto
-                        Console.Write("Ingrese el precio del producto: ");
-                        decimal nuevoPrecio = decimal.Parse(Console.ReadLine()); // Leer precio del producto
-                        // Agregar producto al menú del restaurante
-                        restaurante.EditarMenu(nuevoId, nuevoNombre, nuevoPrecio, true);
+                        if (int.TryParse(Console.ReadLine(), out int nuevoId))
+                        {
+                            Console.Write("Ingrese el nombre del producto: ");
+                            string? nuevoNombre = Console.ReadLine(); // Leer nombre del producto
+                            if (!string.IsNullOrWhiteSpace(nuevoNombre))
+                            {
+                                Console.Write("Ingrese el precio del producto: ");
+                                if (decimal.TryParse(Console.ReadLine(), out decimal nuevoPrecio))
+                                {
+                                    // Agregar producto al menú del restaurante
+                                    restaurante.EditarMenu(nuevoId, nuevoNombre, nuevoPrecio, true);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Precio inválido. Inténtelo de nuevo.");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Nombre inválido. Inténtelo de nuevo.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("ID inválido. Inténtelo de nuevo.");
+                        }
                         break;
 
                     case "3":
                         // Solicita el número de mesa y el ID del producto para agregarlo a la mesa
                         Console.Write("Ingrese el número de la mesa: ");
-                        int numMesaAgregar = int.Parse(Console.ReadLine()); // Leer número de mesa
-                        Console.Write("Ingrese el ID del producto que desea agregar: ");
-                        int idProductoAgregar = int.Parse(Console.ReadLine()); // Leer ID del producto
-                        // Agregar producto a la mesa especificada
-                        restaurante.AgregarProductoAMesa(numMesaAgregar, idProductoAgregar);
+                        if (int.TryParse(Console.ReadLine(), out int numMesaAgregar))
+                        {
+                            Console.Write("Ingrese el ID del producto que desea agregar: ");
+                            if (int.TryParse(Console.ReadLine(), out int idProductoAgregar))
+                            {
+                                // Agregar producto a la mesa especificada
+                                restaurante.AgregarProductoAMesa(numMesaAgregar, idProductoAgregar);
+                            }
+                            else
+                            {
+                                Console.WriteLine("ID del producto inválido. Inténtelo de nuevo.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Número de mesa inválido. Inténtelo de nuevo.");
+                        }
                         break;
 
                     case "4":
                         // Solicita la mesa y el producto para agregar o eliminar en dicha mesa
                         Console.Write("Ingrese el número de la mesa: ");
-                        int numMesaEditar = int.Parse(Console.ReadLine()); // Leer número de mesa
-                        Console.Write("¿Qué desea hacer? (1-Agregar, 2-Eliminar): ");
-                        int opcionEdicion = int.Parse(Console.ReadLine()); // Leer opción de edición (Agregar o Eliminar)
-                        Console.Write("Ingrese el ID del producto: ");
-                        int idProductoEditar = int.Parse(Console.ReadLine()); // Leer ID del producto
-                        // Editar productos de la mesa (agregar o eliminar)
-                        restaurante.EditarProductosMesa(numMesaEditar, opcionEdicion, idProductoEditar);
+                        if (int.TryParse(Console.ReadLine(), out int numMesaEditar))
+                        {
+                            Console.Write("¿Qué desea hacer? (1-Agregar, 2-Eliminar): ");
+                            if (int.TryParse(Console.ReadLine(), out int opcionEdicion))
+                            {
+                                if (opcionEdicion == 1 || opcionEdicion == 2)
+                                {
+                                    Console.Write("Ingrese el ID del producto: ");
+                                    if (int.TryParse(Console.ReadLine(), out int idProductoEditar))
+                                    {
+                                        // Editar productos de la mesa (agregar o eliminar)
+                                        restaurante.EditarProductosMesa(numMesaEditar, opcionEdicion, idProductoEditar);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("ID del producto inválido. Inténtelo de nuevo.");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Opción de edición inválida. Debe ser 1 (Agregar) o 2 (Eliminar).");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Opción de edición inválida. Inténtelo de nuevo.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Número de mesa inválido. Inténtelo de nuevo.");
+                        }
                         break;
 
                     case "5":
                         // Solicita el número de mesa e imprime la cuenta de dicha mesa
                         Console.Write("Ingrese el número de la mesa: ");
-                        int numMesaCuenta = int.Parse(Console.ReadLine()); // Leer número de mesa
-                        restaurante.ImprimirCuentaMesa(numMesaCuenta); // Imprimir cuenta
+                        if (int.TryParse(Console.ReadLine(), out int numMesaCuenta))
+                        {
+                            restaurante.ImprimirCuentaMesa(numMesaCuenta); // Imprimir cuenta
+                        }
+                        else
+                        {
+                            Console.WriteLine("Número de mesa inválido. Inténtelo de nuevo.");
+                        }
                         break;
 
                     case "6":
                         // Solicita el ID del producto y busca dicho producto en el menú
                         Console.Write("Ingrese el ID del producto: ");
-                        int idProductoBuscar = int.Parse(Console.ReadLine()); // Leer ID del producto
-                        // Buscar el producto por ID
-                        Producto? producto = restaurante.BuscarProductoPorId(idProductoBuscar);
-                        if (producto != null)
+                        if (int.TryParse(Console.ReadLine(), out int idProductoBuscar))
                         {
-                            // Si el producto existe, se imprime su información
-                            Console.WriteLine(producto.ToString());
+                            // Buscar el producto por ID
+                            Producto? producto = restaurante.BuscarProductoPorId(idProductoBuscar);
+                            if (producto != null)
+                            {
+                                // Si el producto existe, se imprime su información
+                                Console.WriteLine(producto.ToString());
+                            }
+                            else
+                            {
+                                // Si el producto no se encuentra, se informa al usuario
+                                Console.WriteLine("Producto no encontrado.");
+                            }
                         }
                         else
                         {
-                            // Si el producto no se encuentra, se informa al usuario
-                            Console.WriteLine("Producto no encontrado.");
+                            Console.WriteLine("ID inválido. Inténtelo de nuevo.");
                         }
                         break;
 
