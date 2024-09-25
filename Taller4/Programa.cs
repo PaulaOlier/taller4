@@ -6,15 +6,17 @@ namespace Taller4
     {
         static void Main(string[] args)
         {
-            Restaurante restaurante = new Restaurante();
-            AsciiArt asciiArt = new AsciiArt();
-            bool continuar = true;
+            Restaurante restaurante = new Restaurante(); // Crea una instancia de la clase Restaurante
+            AsciiArt asciiArt = new AsciiArt(); // Crea una instancia de la clase AsciiArt para mostrar arte en ASCII
+            bool continuar = true; // Variable para controlar el bucle del menú
 
             // Imprime el arte ASCII de "BIENVENIDOS"
             asciiArt.ImprimirBienvenido();
 
+            // Bucle principal del programa
             while (continuar)
             {
+                // Muestra el menú de opciones
                 Console.WriteLine("\n===== Menú del Programa =====");
                 Console.WriteLine("1. Imprimir menú del restaurante");
                 Console.WriteLine("2. Agregar producto a una mesa");
@@ -26,15 +28,17 @@ namespace Taller4
                 Console.WriteLine("=============================");
                 Console.Write("Seleccione una opción: ");
 
+                // Lee la opción seleccionada por el usuario
                 string? opcion = Console.ReadLine();
 
+                // Evalúa la opción seleccionada
                 switch (opcion)
                 {
-                    case "1":
+                    case "1": // Opción para imprimir el menú del restaurante
                         restaurante.ImprimirMenu();
                         break;
 
-                    case "2":
+                    case "2": // Opción para agregar producto a una mesa
                         Console.Write("Ingrese el número de la mesa: ");
                         if (int.TryParse(Console.ReadLine(), out int numMesaAgregar))
                         {
@@ -54,7 +58,7 @@ namespace Taller4
                         }
                         break;
 
-                    case "3":
+                    case "3": // Opción para eliminar producto de una mesa
                         Console.Write("Ingrese el número de la mesa: ");
                         if (int.TryParse(Console.ReadLine(), out int numMesaEliminar))
                         {
@@ -74,7 +78,7 @@ namespace Taller4
                         }
                         break;
 
-                    case "4":
+                    case "4": // Opción para editar un producto en el menú
                         Console.Write("Ingrese el ID del producto a editar: ");
                         if (int.TryParse(Console.ReadLine(), out int idProductoEditar))
                         {
@@ -104,7 +108,7 @@ namespace Taller4
                         }
                         break;
 
-                    case "5":
+                    case "5": // Opción para agregar un nuevo producto al menú
                         Console.Write("Ingrese el ID del nuevo producto: ");
                         if (int.TryParse(Console.ReadLine(), out int nuevoId))
                         {
@@ -134,7 +138,7 @@ namespace Taller4
                         }
                         break;
 
-                    case "6":
+                    case "6": // Opción para imprimir la cuenta de una mesa
                         Console.Write("Ingrese el número de la mesa: ");
                         if (int.TryParse(Console.ReadLine(), out int numMesaCuenta))
                         {
@@ -146,11 +150,11 @@ namespace Taller4
                         }
                         break;
 
-                    case "0":
+                    case "0": // Opción para salir del programa
                         continuar = false;
                         break;
 
-                    default:
+                    default: // Manejo de opciones inválidas
                         Console.WriteLine("Opción inválida. Inténtelo de nuevo.");
                         break;
                 }
