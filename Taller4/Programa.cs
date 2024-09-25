@@ -2,14 +2,17 @@ using System;
 
 namespace Taller4
 {
-    // Clase principal del programa
     class Programa
     {
         static void Main(string[] args)
         {
-            // Crea una nueva instancia de la clase Restaurante
+            // Crea una nueva instancia de la clase Restaurante y AsciiArt
             Restaurante restaurante = new Restaurante();
+            AsciiArt asciiArt = new AsciiArt();
             bool continuar = true;
+
+            // Imprime el arte ASCII de "BIENVENIDOS"
+            asciiArt.ImprimirBienvenido();
 
             // Ciclo que mantiene el programa en ejecución hasta que el usuario decida salir
             while (continuar)
