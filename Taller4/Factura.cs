@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Taller4;
 
 namespace Taller4
 {
@@ -25,17 +26,19 @@ namespace Taller4
 
         // Método para imprimir la factura en formato tirilla
         public void ImprimirFactura()
-        {
+        {         
+
             decimal impuestos = Total * 0.15m; // Ejemplo: 15% de impuestos
             decimal propina = Total * 0.10m; // Ejemplo: 10% de propina
             decimal totalConImpuestos = Total + impuestos + propina;
 
-            Console.WriteLine("Factura:");
-            Console.WriteLine($"Mesa: {NumeroMesa}");
-            Console.WriteLine($"Subtotal: {Total:C}");
-            Console.WriteLine($"Impuestos (15%): {impuestos:C}");
-            Console.WriteLine($"Propina (10%): {propina:C}");
-            Console.WriteLine($"Total: {totalConImpuestos:C}");
+            AsciiArt.ImprimirFacturaASCII();
+            
+            Console.WriteLine($"\n\t   Mesa: \n\t \t{NumeroMesa}");
+            Console.WriteLine($"\t   Subtotal: \n\t \t{Total:C}");
+            Console.WriteLine($"\t   Impuestos (15%):  \n\t\t{impuestos:C}");
+            Console.WriteLine($"\t   Propina (10%):  \n\t\t{propina:C}");
+            Console.WriteLine($"\t   Total:  \n\t\t{totalConImpuestos:C}");
             Console.WriteLine(new string('-', 20));
         }
     }

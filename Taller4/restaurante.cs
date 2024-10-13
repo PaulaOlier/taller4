@@ -69,10 +69,9 @@ namespace Taller4
             Mesa? mesa = mesas.Find(m => m.GetNumero() == numeroMesa);
             if (mesa != null)
             {
-                mesa.ImprimirCuenta(); // Imprime la cuenta de la mesa
-
+                mesa.ImprimirCuenta(); // Imprime la cuenta de la mesa              
                 // Crea y guarda la factura
-                Factura factura = new Factura(numeroMesa, mesa.ObtenerTotal()); // Crea una nueva factura con el total de la mesa
+                Factura factura = new Factura(numeroMesa, mesa.ObtenerTotal()); // Crea una nueva factura con el total de la mesa   
                 factura.ImprimirFactura(); // Imprime la factura en formato tirilla
                 factura.GuardarFactura(rutaFacturas); // Guarda la factura en el archivo CSV
             }

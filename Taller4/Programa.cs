@@ -141,7 +141,7 @@ namespace Taller4
                     case "6": // Opción para imprimir la cuenta de una mesa
                         Console.Write("Ingrese el número de la mesa: ");
                         if (int.TryParse(Console.ReadLine(), out int numMesaCuenta))
-                        {
+                        {                            
                             restaurante.ImprimirCuentaMesa(numMesaCuenta);
                         }
                         else
