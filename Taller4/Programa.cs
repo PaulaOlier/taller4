@@ -17,6 +17,7 @@ namespace Taller4
             while (continuar)
             {
                 // Muestra el menú de opciones
+                
                 Console.WriteLine("\n===== Menú del Programa =====");
                 Console.WriteLine("1. Imprimir menú del restaurante");
                 Console.WriteLine("2. Agregar producto a una mesa");
@@ -35,6 +36,7 @@ namespace Taller4
                 switch (opcion)
                 {
                     case "1": // Opción para imprimir el menú del restaurante
+                        asciiArt.ImprimirRestauranteDante();
                         restaurante.ImprimirMenu();
                         break;
 

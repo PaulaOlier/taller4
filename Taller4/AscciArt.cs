@@ -27,5 +27,16 @@ namespace Taller4
             Console.WriteLine("|                                     |");          
                   
         }
+
+        public void ImprimirRestauranteDante()
+        {
+            Console.WriteLine("  ____                                           _         ____              _       ");
+            Console.WriteLine(" |  _ | ___  ___ _ __ __ _ _   _ _ __ __ _ _ __ | |_ ___  |  _  | __ _ _ __ | |_ ___ ");
+            Console.WriteLine(" | |_) / _ || __| '__/ _` | | | | '__/ _` | '_  | __/ _ | | | | |/ _` | '_  | __/ _ |");
+            Console.WriteLine(" |  _ <  __/|__ | | | (_| | |_| | | | (_| | | | | ||  __/ | |_| | (_| | | | | ||  __/");
+            Console.WriteLine(" |_| ||____||___/_| |___,_|___,_|_| |___,_|_| |_| ||___|  |____/|___,_|_| |_|__|____|");
+
+
+        }
     }
 }

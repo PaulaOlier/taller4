@@ -50,13 +50,13 @@ namespace Taller4
         // Método para imprimir el menú en la consola
         public void ImprimirMenu()
         {
-            Console.WriteLine("\n===== Menú del Restaurante =====");
+            Console.WriteLine("\n\t\t\t===== Menú del Restaurante =====");
             // Itera sobre cada producto y lo imprime
             foreach (var producto in productos)
             {
-                Console.WriteLine(producto.ToString());
+                Console.WriteLine($"\t\t\t{producto.ToString()}");
             }
-            Console.WriteLine("=============================");
+            Console.WriteLine("\t\t\t================================");
         }
 
         // Método para buscar un producto por su ID
