@@ -19,12 +19,12 @@ namespace Taller4
 
          public static void ImprimirFacturaASCII()
         {
-            Console.WriteLine("| _____          _                    |");
-            Console.WriteLine("||  ___|_ _  ___| |_ _   _ _ __ __ _  |");
-            Console.WriteLine("|| |_ / _` |/ __| __| | | | '__/ _` | |");
-            Console.WriteLine("||  _| (_| | (__| |_| |_| | | | (_| | |");
-            Console.WriteLine("||_| |__,_ |___|__| |_,_|_| | |___,_| |");
-            Console.WriteLine("|                                     |");          
+            Console.WriteLine("| _____          _                     |");
+            Console.WriteLine("||  ___|_ _  ___| |_ _   _ _ __ __ _   |");
+            Console.WriteLine("|| |_ / _` |/ __| __| | | | '__/ _` |  |");
+            Console.WriteLine("||  _| (_| | (__| |_| |_| | | | (_| |  |");
+            Console.WriteLine("||_| |__,_ |___|__| |_,_|_| | |___,_|  |");
+            Console.WriteLine("|                                      |");          
                   
         }
 
