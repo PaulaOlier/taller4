@@ -54,7 +54,19 @@ namespace Taller4
             // Itera sobre cada producto y lo imprime
             foreach (var producto in productos)
             {
+                // Verificamos si el producto está agotado o con bajo stock
+            if (producto.EstaAgotado())
+            {
+                Console.WriteLine($"\t\t\t{producto.ToString()} [AGOTADO]");
+            }
+            else if (producto.StockBajo())
+            {
+                Console.WriteLine($"\t\t\t{producto.ToString()} [BAJO STOCK]");
+            }
+            else
+            {
                 Console.WriteLine($"\t\t\t{producto.ToString()}");
+            }
             }
             Console.WriteLine("\t\t\t================================");
         }

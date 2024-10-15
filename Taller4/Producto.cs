@@ -27,6 +27,12 @@ namespace Taller4
         // Establece la cantidad del producto
         public void SetCantidad(int cantidad) => Cantidad = cantidad;
 
+        // Verificar si el producto está agotado
+        public bool EstaAgotado() => Cantidad == 0;
+
+        // Verificar si el stock es bajo (puede definir el umbral)
+       public bool StockBajo() => Cantidad > 0 && Cantidad < 3;
+
         // Método para representar el producto como una cadena
         public override string ToString() => $"{Id}. {Nombre} - ${Precio} (Cantidad: {Cantidad})";
     }
