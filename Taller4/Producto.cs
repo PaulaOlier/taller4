@@ -18,15 +18,12 @@ namespace Taller4
 
         // Getters y Setters
         public int GetId() => id;
-        public void SetId(int value) => id = value;
-
         public string GetNombre() => nombre;
-        public void SetNombre(string value) => nombre = value;
-
         public double GetPrecio() => precio;
-        public void SetPrecio(double value) => precio = value;
-
         public int GetCantidad() => cantidad;
+
+        public void SetNombre(string value) => nombre = value;
+        public void SetPrecio(double value) => precio = value;
         public void SetCantidad(int value) => cantidad = value;
     }
 }

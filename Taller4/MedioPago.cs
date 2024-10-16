@@ -1,9 +1,8 @@
 namespace Taller4
 {
-    // Clase abstracta MedioPago
     public abstract class MedioPago
     {
-        public decimal Monto { get; set; }
+        public decimal Monto { get; private set; }
 
         public MedioPago(decimal monto)
         {

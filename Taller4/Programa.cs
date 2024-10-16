@@ -29,6 +29,10 @@ namespace Taller4
                 Console.WriteLine("4. Agregar Producto a Factura");
                 Console.WriteLine("5. Mostrar Facturas");
                 Console.WriteLine("6. Imprimir Factura");
+                Console.WriteLine("7. Agregar Producto al Menú");
+                Console.WriteLine("8. Editar Producto en el Menú");
+                Console.WriteLine("9. Agregar Producto a Mesa");
+                Console.WriteLine("10. Mostrar Productos en Mesa");
 
                 string opcion = Console.ReadLine();
 
@@ -62,136 +66,116 @@ namespace Taller4
                         ImprimirFactura();
                         break;
 
+                    case "7":
+                        AgregarProductoAlMenu();
+                        break;
+
+                    case "8":
+                        EditarProductoEnMenu();
+                        break;
+
+                    case "9":
+                        AgregarProductoAMesa();
+                        break;
+
+                    case "10":
+                        MostrarProductosEnMesa();
+                        break;
+
                     default:
-                        Console.WriteLine("Opción no válida. Intente nuevamente.");
+                        Console.WriteLine("Opción no válida.");
                         break;
                 }
             }
         }
 
-        private void MostrarMenu()
-        {
-            restaurante.GetMenu().MostrarMenu();
-        }
+        private void MostrarMenu() => restaurante.GetMenu().MostrarMenu();
 
         private void AsignarClienteAMesa()
         {
-            Console.WriteLine("\nIngrese el número de la mesa (1-5):");
-            int numeroMesa;
-            while (!int.TryParse(Console.ReadLine(), out numeroMesa) || numeroMesa < 1 || numeroMesa > 5)
-            {
-                Console.WriteLine("Número de mesa inválido. Ingrese un número entre 1 y 5:");
-            }
-
+            Console.WriteLine("Ingrese el número de la mesa:");
+            int numeroMesa = int.Parse(Console.ReadLine());
             Console.WriteLine("Ingrese el nombre del cliente:");
             string nombreCliente = Console.ReadLine();
-
-            Console.WriteLine("Ingrese la fecha de nacimiento del cliente (dd/MM/yyyy):");
-            DateTime fechaNacimiento;
-            while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out fechaNacimiento))
-            {
-                Console.WriteLine("Fecha inválida. Intente nuevamente (dd/MM/yyyy):");
-            }
-
-            Cliente cliente = new Cliente(nombreCliente, fechaNacimiento);
+            Cliente cliente = new Cliente(nombreCliente);
             restaurante.AsignarClienteAMesa(numeroMesa, cliente);
-
-            Console.WriteLine($"Cliente {cliente.GetNombre()} asignado a la mesa {numeroMesa}.");
         }
 
         private void CrearFactura()
         {
-            Console.WriteLine("\nIngrese el nombre del cliente para crear la factura:");
+            Console.WriteLine("Ingrese el nombre del cliente para la factura:");
             string nombreCliente = Console.ReadLine();
-
-            Cliente cliente = restaurante.GetClientes().FirstOrDefault(c => c.GetNombre() == nombreCliente);
-
-            if (cliente != null)
-            {
-                Factura factura = restaurante.CrearFactura(cliente);
-                Console.WriteLine("Factura creada con éxito.");
-            }
-            else
-            {
-                Console.WriteLine("Cliente no encontrado.");
-            }
+            Cliente cliente = new Cliente(nombreCliente);
+            restaurante.CrearFactura(cliente);
         }
 
         private void AgregarProductoAFactura()
         {
-            Console.WriteLine("\nIngrese el nombre del cliente:");
-            string nombreCliente = Console.ReadLine();
-
-            Cliente cliente = restaurante.GetClientes().FirstOrDefault(c => c.GetNombre() == nombreCliente);
-
-            if (cliente != null)
-            {
-                Console.WriteLine("Ingrese el ID del producto:");
-                int idProducto;
-                while (!int.TryParse(Console.ReadLine(), out idProducto))
-                {
-                    Console.WriteLine("ID de producto inválido. Intente nuevamente.");
-                }
-
-                Producto producto = restaurante.GetMenu().ObtenerProductoPorId(idProducto);
-
-                if (producto != null)
-                {
-                    Factura factura = restaurante.GetFacturas().FirstOrDefault(f => f.GetCliente().GetNombre() == cliente.GetNombre());
-                    if (factura != null)
-                    {
-                        factura.AgregarProducto(producto);
-                        Console.WriteLine($"Producto {producto.GetNombre()} agregado a la factura.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Factura no encontrada.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Producto no encontrado.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Cliente no encontrado.");
-            }
+            // Lógica para agregar un producto a la factura (no implementada aquí)
         }
 
         private void MostrarFacturas()
         {
-            foreach (var factura in restaurante.GetFacturas())
-            {
-                Console.WriteLine($"Factura de {factura.GetCliente().GetNombre()}:");
-                factura.MostrarFactura();
-            }
+            // Lógica para mostrar facturas (no implementada aquí)
         }
 
         private void ImprimirFactura()
         {
-            Console.WriteLine("\nIngrese el nombre del cliente:");
-            string nombreCliente = Console.ReadLine();
+            // Lógica para imprimir la factura (no implementada aquí)
+        }
 
-            Cliente cliente = restaurante.GetClientes().FirstOrDefault(c => c.GetNombre() == nombreCliente);
+        private void AgregarProductoAlMenu()
+        {
+            Console.WriteLine("Ingrese el ID del producto:");
+            int id = int.Parse(Console.ReadLine());
+            Console.WriteLine("Ingrese el nombre del producto:");
+            string nombre = Console.ReadLine();
+            Console.WriteLine("Ingrese el precio del producto:");
+            double precio = double.Parse(Console.ReadLine());
+            Console.WriteLine("Ingrese la cantidad del producto:");
+            int cantidad = int.Parse(Console.ReadLine());
 
-            if (cliente != null)
+            Producto nuevoProducto = new Producto(id, nombre, precio, cantidad);
+            restaurante.AgregarProductoAlMenu(nuevoProducto);
+        }
+
+        private void EditarProductoEnMenu()
+        {
+            Console.WriteLine("Ingrese el ID del producto a editar:");
+            int id = int.Parse(Console.ReadLine());
+            Console.WriteLine("Ingrese el nuevo nombre del producto:");
+            string nuevoNombre = Console.ReadLine();
+            Console.WriteLine("Ingrese el nuevo precio del producto:");
+            double nuevoPrecio = double.Parse(Console.ReadLine());
+            Console.WriteLine("Ingrese la nueva cantidad del producto:");
+            int nuevaCantidad = int.Parse(Console.ReadLine());
+
+            restaurante.EditarProductoEnMenu(id, nuevoNombre, nuevoPrecio, nuevaCantidad);
+        }
+
+        private void AgregarProductoAMesa()
+        {
+            Console.WriteLine("Ingrese el número de la mesa:");
+            int numeroMesa = int.Parse(Console.ReadLine());
+            Console.WriteLine("Ingrese el ID del producto a agregar:");
+            int idProducto = int.Parse(Console.ReadLine());
+
+            Producto producto = restaurante.GetMenu().ObtenerProductoPorId(idProducto);
+            if (producto != null)
             {
-                Factura factura = restaurante.GetFacturas().FirstOrDefault(f => f.GetCliente().GetNombre() == cliente.GetNombre());
-                if (factura != null)
-                {
-                    factura.AplicarDescuento();
-                    factura.MostrarFactura();
-                }
-                else
-                {
-                    Console.WriteLine("Factura no encontrada.");
-                }
+                restaurante.GetMesas()[numeroMesa - 1].AgregarProducto(producto);
             }
             else
             {
-                Console.WriteLine("Cliente no encontrado.");
+                Console.WriteLine("Producto no encontrado en el menú.");
             }
+        }
+
+        private void MostrarProductosEnMesa()
+        {
+            Console.WriteLine("Ingrese el número de la mesa:");
+            int numeroMesa = int.Parse(Console.ReadLine());
+            restaurante.GetMesas()[numeroMesa - 1].MostrarProductos();
         }
     }
 }

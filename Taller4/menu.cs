@@ -8,16 +8,18 @@ namespace Taller4
     public class Menu
     {
         private List<Producto> productos;
+        private string rutaArchivo;  // Ruta del archivo para guardar cambios
 
         // Constructor que carga el menú desde el archivo CSV
         public Menu(string rutaArchivo)
         {
+            this.rutaArchivo = rutaArchivo;
             productos = new List<Producto>();
-            CargarMenuDesdeArchivo(rutaArchivo);
+            CargarMenuDesdeArchivo();
         }
 
         // Cargar el menú desde un archivo CSV
-        private void CargarMenuDesdeArchivo(string rutaArchivo)
+        private void CargarMenuDesdeArchivo()
         {
             if (!File.Exists(rutaArchivo))
             {
@@ -45,7 +47,7 @@ namespace Taller4
         // Mostrar todos los productos en el menú
         public void MostrarMenu()
         {
-            if (productos == null || productos.Count == 0)
+            if (productos.Count == 0)
             {
                 Console.WriteLine("El menú está vacío.");
                 return;
@@ -58,10 +60,10 @@ namespace Taller4
             }
         }
 
-        // Obtener un producto por su ID, devolviendo null si no existe
+        // Obtener un producto por su ID
         public Producto ObtenerProductoPorId(int id)
         {
-            return productos?.FirstOrDefault(p => p.GetId() == id);
+            return productos.FirstOrDefault(p => p.GetId() == id);
         }
 
         // Agregar un producto al menú
@@ -71,6 +73,7 @@ namespace Taller4
             {
                 productos.Add(producto);
                 GuardarMenuEnArchivo();
+                Console.WriteLine($"Producto {producto.GetNombre()} agregado al menú.");
             }
             else
             {
@@ -88,6 +91,7 @@ namespace Taller4
                 producto.SetPrecio(nuevoPrecio);
                 producto.SetCantidad(nuevaCantidad);
                 GuardarMenuEnArchivo();
+                Console.WriteLine($"Producto {id} editado con éxito.");
             }
             else
             {
@@ -98,11 +102,8 @@ namespace Taller4
         // Guardar el menú de nuevo en el archivo CSV
         private void GuardarMenuEnArchivo()
         {
-            if (productos != null && productos.Count > 0)
-            {
-                var lineas = productos.Select(p => $"{p.GetId()},{p.GetNombre()},{p.GetPrecio()},{p.GetCantidad()}");
-                File.WriteAllLines("menu.csv", lineas);
-            }
+            var lineas = productos.Select(p => $"{p.GetId()},{p.GetNombre()},{p.GetPrecio()},{p.GetCantidad()}");
+            File.WriteAllLines(rutaArchivo, lineas);
         }
     }
 }

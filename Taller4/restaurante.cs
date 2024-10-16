@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Taller4
 {
@@ -9,35 +8,34 @@ namespace Taller4
         private List<Factura> facturas;
         private List<Cliente> clientes;
         private Menu menu;
-        private int numeroDeMesas;
+        private List<Mesa> mesas;
 
         // Constructor
         public Restaurante(int numeroDeMesas, string rutaArchivoMenu)
         {
-            this.numeroDeMesas = numeroDeMesas;
             this.facturas = new List<Factura>();
             this.clientes = new List<Cliente>();
             this.menu = new Menu(rutaArchivoMenu);
+            this.mesas = new List<Mesa>();
+
+            for (int i = 1; i <= numeroDeMesas; i++)
+            {
+                mesas.Add(new Mesa(i));
+            }
         }
 
         // Asignar cliente a una mesa
         public void AsignarClienteAMesa(int numeroMesa, Cliente cliente)
         {
-            if (numeroMesa < 1 || numeroMesa > numeroDeMesas)
+            if (numeroMesa < 1 || numeroMesa > mesas.Count)
             {
                 Console.WriteLine("Número de mesa no válido.");
                 return;
             }
 
-            if (cliente != null && !clientes.Contains(cliente))
-            {
-                clientes.Add(cliente);
-                Console.WriteLine($"Cliente {cliente.GetNombre()} asignado a la mesa {numeroMesa}");
-            }
-            else
-            {
-                Console.WriteLine("Cliente ya está asignado.");
-            }
+            var mesa = mesas[numeroMesa - 1];
+            mesa.AgregarProducto(cliente);  // Cambiar a la función que agregará un producto
+            clientes.Add(cliente);
         }
 
         // Crear una factura para un cliente
@@ -51,16 +49,14 @@ namespace Taller4
 
             var factura = new Factura(cliente);
             facturas.Add(factura);
+            Console.WriteLine("Factura creada con éxito.");
             return factura;
         }
 
         // Obtener las facturas
         public List<Factura> GetFacturas() => facturas;
-
-        // Obtener el menú
         public Menu GetMenu() => menu;
-
-        // Obtener la lista de clientes
         public List<Cliente> GetClientes() => clientes;
+        public List<Mesa> GetMesas() => mesas;  // Para acceder a las mesas
     }
 }

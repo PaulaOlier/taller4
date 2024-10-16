@@ -1,23 +1,43 @@
+using System;
+using System.Collections.Generic;
+
 namespace Taller4
 {
     public class Mesa
     {
         private int numero;
-        private Cliente cliente;
+        private List<Producto> productos;
 
         public Mesa(int numero)
         {
             this.numero = numero;
-            cliente = null;
+            this.productos = new List<Producto>();
         }
 
         public int GetNumero() => numero;
-        public Cliente GetCliente() => cliente;
 
-        // Asigna un cliente a la mesa
-        public void AsignarCliente(Cliente cliente)
+        // Agregar producto a la mesa
+        public void AgregarProducto(Producto producto)
         {
-            this.cliente = cliente;
+            if (producto != null)
+            {
+                productos.Add(producto);
+                Console.WriteLine($"Producto {producto.GetNombre()} agregado a la mesa {numero}.");
+            }
+            else
+            {
+                Console.WriteLine("El producto no puede ser nulo.");
+            }
+        }
+
+        // Mostrar productos de la mesa
+        public void MostrarProductos()
+        {
+            Console.WriteLine($"\nProductos en la mesa {numero}:");
+            foreach (var producto in productos)
+            {
+                Console.WriteLine($"- {producto.GetNombre()} a ${producto.GetPrecio()}");
+            }
         }
     }
 }
