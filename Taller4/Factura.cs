@@ -11,36 +11,29 @@ namespace Taller4
         public Factura(Cliente cliente)
         {
             this.cliente = cliente;
-            productos = new List<Producto>();
+            this.productos = new List<Producto>();
         }
 
         public Cliente GetCliente() => cliente;
 
         public void AgregarProducto(Producto producto)
         {
-            if (producto != null)
-            {
-                productos.Add(producto);
-                Console.WriteLine($"Producto {producto.GetNombre()} agregado a la factura.");
-            }
-            else
-            {
-                Console.WriteLine("El producto no puede ser nulo.");
-            }
+            productos.Add(producto);
         }
 
         public void MostrarFactura()
         {
-            Console.WriteLine($"Factura para: {cliente.GetNombre()}");
+            Console.WriteLine($"Cliente: {cliente.GetNombre()}");
+            Console.WriteLine("Productos:");
             foreach (var producto in productos)
             {
-                Console.WriteLine($"- {producto.GetNombre()} a ${producto.GetPrecio()}");
+                Console.WriteLine($"- {producto.GetNombre()} (ID: {producto.GetId()}, Precio: {producto.GetPrecio()}, Cantidad: {producto.GetCantidad()})");
             }
         }
 
         public void ImprimirFactura()
         {
-            Console.WriteLine("\nImprimiendo factura...");
+            Console.WriteLine("Imprimiendo factura...");
             MostrarFactura();
         }
     }

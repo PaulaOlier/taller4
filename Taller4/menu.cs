@@ -1,109 +1,94 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace Taller4
 {
     public class Menu
     {
         private List<Producto> productos;
-        private string rutaArchivo;  // Ruta del archivo para guardar cambios
+        private string rutaArchivo;
 
-        // Constructor que carga el menú desde el archivo CSV
         public Menu(string rutaArchivo)
         {
             this.rutaArchivo = rutaArchivo;
-            productos = new List<Producto>();
             CargarMenuDesdeArchivo();
         }
 
-        // Cargar el menú desde un archivo CSV
         private void CargarMenuDesdeArchivo()
         {
-            if (!File.Exists(rutaArchivo))
+            productos = new List<Producto>();
+            try
             {
-                Console.WriteLine("El archivo de menú no existe.");
-                return;
-            }
-
-            var lineas = File.ReadAllLines(rutaArchivo);
-            foreach (var linea in lineas)
-            {
-                var datos = linea.Split(',');
-                if (datos.Length == 4)
+                foreach (var linea in File.ReadAllLines(rutaArchivo))
                 {
-                    int id = int.Parse(datos[0]);
-                    string nombre = datos[1];
-                    double precio = double.Parse(datos[2]);
-                    int cantidad = int.Parse(datos[3]);
-
-                    var producto = new Producto(id, nombre, precio, cantidad);
-                    productos.Add(producto);
+                    var partes = linea.Split(',');
+                    if (partes.Length == 3)
+                    {
+                        var producto = new Producto(int.Parse(partes[0]), partes[1], double.Parse(partes[2]), 0);
+                        productos.Add(producto);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al cargar el menú: {ex.Message}");
+            }
         }
 
-        // Mostrar todos los productos en el menú
         public void MostrarMenu()
         {
-            if (productos.Count == 0)
-            {
-                Console.WriteLine("El menú está vacío.");
-                return;
-            }
-
-            Console.WriteLine("\n--- Menú ---");
+            Console.WriteLine("Menú del Restaurante:");
             foreach (var producto in productos)
             {
-                Console.WriteLine($"ID: {producto.GetId()}, Nombre: {producto.GetNombre()}, Precio: ${producto.GetPrecio()}, Cantidad: {producto.GetCantidad()}");
+                Console.WriteLine($"ID: {producto.GetId()}, Nombre: {producto.GetNombre()}, Precio: {producto.GetPrecio()}");
             }
         }
 
-        // Obtener un producto por su ID
         public Producto ObtenerProductoPorId(int id)
         {
-            return productos.FirstOrDefault(p => p.GetId() == id);
+            var producto = productos.Find(p => p.GetId() == id);
+            if (producto == null)
+            {
+                Console.WriteLine($"Producto con ID {id} no encontrado.");
+            }
+            return producto;  // Puede devolver null si no se encuentra.
         }
 
-        // Agregar un producto al menú
-        public void AgregarProducto(Producto producto)
-        {
-            if (producto != null)
-            {
-                productos.Add(producto);
-                GuardarMenuEnArchivo();
-                Console.WriteLine($"Producto {producto.GetNombre()} agregado al menú.");
-            }
-            else
-            {
-                Console.WriteLine("El producto no puede ser nulo.");
-            }
-        }
-
-        // Editar un producto en el menú
         public void EditarProducto(int id, string nuevoNombre, double nuevoPrecio, int nuevaCantidad)
         {
             var producto = ObtenerProductoPorId(id);
-            if (producto != null)
+            if (producto != null) // Solo procede si el producto no es null
             {
                 producto.SetNombre(nuevoNombre);
                 producto.SetPrecio(nuevoPrecio);
                 producto.SetCantidad(nuevaCantidad);
                 GuardarMenuEnArchivo();
-                Console.WriteLine($"Producto {id} editado con éxito.");
+                Console.WriteLine($"Producto {id} editado exitosamente.");
             }
             else
             {
-                Console.WriteLine("Producto no encontrado.");
+                Console.WriteLine("No se pudo editar el producto porque no se encontró.");
             }
         }
 
-        // Guardar el menú de nuevo en el archivo CSV
+
         private void GuardarMenuEnArchivo()
         {
-            var lineas = productos.Select(p => $"{p.GetId()},{p.GetNombre()},{p.GetPrecio()},{p.GetCantidad()}");
-            File.WriteAllLines(rutaArchivo, lineas);
+            try
+            {
+                using (var writer = new StreamWriter(rutaArchivo, false))
+                {
+                    foreach (var producto in productos)
+                    {
+                        writer.WriteLine($"{producto.GetId()},{producto.GetNombre()},{producto.GetPrecio()}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al guardar el menú: {ex.Message}");
+            }
         }
     }
 }

@@ -5,38 +5,38 @@ namespace Taller4
 {
     public class Mesa
     {
-        private int numero;
+        private Cliente cliente;
         private List<Producto> productos;
 
-        public Mesa(int numero)
+        public Mesa()
         {
-            this.numero = numero;
-            this.productos = new List<Producto>();
+            productos = new List<Producto>();
         }
 
-        public int GetNumero() => numero;
+        public void AsignarCliente(Cliente cliente)
+        {
+            this.cliente = cliente;
+        }
 
-        // Agregar producto a la mesa
         public void AgregarProducto(Producto producto)
         {
             if (producto != null)
             {
                 productos.Add(producto);
-                Console.WriteLine($"Producto {producto.GetNombre()} agregado a la mesa {numero}.");
+                Console.WriteLine($"Producto {producto.GetNombre()} agregado a la mesa.");
             }
             else
             {
-                Console.WriteLine("El producto no puede ser nulo.");
+                Console.WriteLine("Producto nulo no se puede agregar.");
             }
         }
 
-        // Mostrar productos de la mesa
         public void MostrarProductos()
         {
-            Console.WriteLine($"\nProductos en la mesa {numero}:");
+            Console.WriteLine($"Productos en la mesa de {cliente?.GetNombre() ?? "Sin cliente asignado"}:");
             foreach (var producto in productos)
             {
-                Console.WriteLine($"- {producto.GetNombre()} a ${producto.GetPrecio()}");
+                Console.WriteLine($"- {producto.GetNombre()}");
             }
         }
     }
