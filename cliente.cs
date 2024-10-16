@@ -18,4 +18,10 @@ namespace Taller4
             FechaRegistro = DateTime.Now; // Asigna la fecha de registro automáticamente
         }
 
-
+        // Método para mostrar información del cliente
+        public void MostrarInformacion()
+        {
+            Console.WriteLine($"ID: {Id} - Nombre: {Nombre} - Correo: {Correo} - Fecha de Registro: {FechaRegistro}");
+        }
+    }
+}
