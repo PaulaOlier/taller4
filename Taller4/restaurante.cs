@@ -9,6 +9,10 @@ namespace Taller4
         private Menu menu;
         private List<Factura> facturas;
         private List<Cliente> clientes;
+        public int NumeroMesa { get; set; }
+        public decimal Total { get; set; }
+        public DateTime Fecha { get; set; }
+        public MedioPago MedioPago { get; set; }  // Asocia un medio de pago a la factura
 
         public Restaurante(int cantidadMesas)
         {
@@ -21,6 +25,8 @@ namespace Taller4
             facturas = new List<Factura>();
             clientes = new List<Cliente>();
         }
+
+        
 
         public List<Mesa> GetMesas() => mesas;
         public Menu GetMenu() => menu;
