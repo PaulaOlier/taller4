@@ -1,21 +1,20 @@
+using System;
+using System.Collections.Generic;
+
 namespace Taller4
 {
     public class Restaurante
     {
         private Menu menu;
         private List<Mesa> mesas;
-        private List<Cliente> clientes;
-        private const string rutaFacturas = @"D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\facturas.csv"; 
-        private const string rutaClientes = @"D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\clientes.csv"; // Archivo CSV para clientes
+        private ClientesCSV clientesCSV;
+        private const string rutaFacturas = @"D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\facturas.csv"; // Ruta del archivo CSV para las facturas
 
         public Restaurante()
         {
             menu = new Menu();
             mesas = new List<Mesa>();
-            clientes = new List<Cliente>();
-
-            // Cargar clientes desde archivo CSV
-            CargarClientesDesdeCSV(rutaClientes);
+            clientesCSV = new ClientesCSV();
 
             // Crear 10 mesas
             for (int i = 1; i <= 10; i++)
@@ -26,60 +25,13 @@ namespace Taller4
             }
         }
 
-        // Cargar los clientes desde un archivo CSV
-        private void CargarClientesDesdeCSV(string archivo)
+        // Opción 1: Imprimir menú
+        public void ImprimirMenu()
         {
-            if (File.Exists(archivo))
-            {
-                string[] lineas = File.ReadAllLines(archivo);
-                foreach (var linea in lineas)
-                {
-                    var datos = linea.Split(',');
-                    if (datos.Length == 3 && int.TryParse(datos[0], out int id))
-                    {
-                        var cliente = new Cliente(id, datos[1], datos[2]);
-                        clientes.Add(cliente);
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("No se pudo cargar el archivo de clientes.");
-            }
+            menu.ImprimirMenu();
         }
 
-        // Guardar los clientes en un archivo CSV
-        private void GuardarClientesEnCSV(string archivo)
-        {
-            using (var writer = new StreamWriter(archivo))
-            {
-                foreach (var cliente in clientes)
-                {
-                    writer.WriteLine($"{cliente.Id},{cliente.Nombre},{cliente.Correo}");
-                }
-            }
-        }
-
-        // Agregar un cliente
-        public void AgregarCliente(int id, string nombre, string correo)
-        {
-            Cliente nuevoCliente = new Cliente(id, nombre, correo);
-            clientes.Add(nuevoCliente);
-            Console.WriteLine("Cliente agregado correctamente.");
-            GuardarClientesEnCSV(rutaClientes); // Guardar en CSV después de agregar
-        }
-
-        // Imprimir la lista de clientes
-        public void ImprimirClientes()
-        {
-            Console.WriteLine("\n===== Lista de Clientes =====");
-            foreach (var cliente in clientes)
-            {
-                cliente.MostrarInformacion();
-            }
-        }
-
-        // Métodos para las opciones de agregar, eliminar, y editar productos, etc. (ya los tienes, pero los repito aquí para ser completos)
+        // Opción 2: Agregar producto a una mesa
         public void AgregarProductoAMesa(int numeroMesa, int idProducto)
         {
             Mesa? mesa = mesas.Find(m => m.GetNumero() == numeroMesa);
@@ -90,10 +42,11 @@ namespace Taller4
             }
             else
             {
-                Console.WriteLine(mesa == null ? "Mesa no encontrada." : "Producto no encontrado.");
+                Console.WriteLine("Mesa o Producto no encontrado.");
             }
         }
 
+        // Opción 3: Eliminar producto de una mesa
         public void EliminarProducto(int numeroMesa, int idProducto)
         {
             Mesa? mesa = mesas.Find(m => m.GetNumero() == numeroMesa);
@@ -107,15 +60,13 @@ namespace Taller4
             }
         }
 
+        // Opción 4: Imprimir cuenta de mesa
         public void ImprimirCuentaMesa(int numeroMesa)
         {
             Mesa? mesa = mesas.Find(m => m.GetNumero() == numeroMesa);
             if (mesa != null)
             {
                 mesa.ImprimirCuenta();
-                Factura factura = new Factura(numeroMesa, mesa.ObtenerTotal());
-                factura.ImprimirFactura();
-                factura.GuardarFactura(rutaFacturas);
             }
             else
             {
@@ -123,15 +74,16 @@ namespace Taller4
             }
         }
 
-        public void EditarProductoEnMenu(int id, string nombre, decimal precio, int cantidad)
+        // Opción 5: Agregar cliente
+        public void AgregarCliente(int id, string nombre, string correo)
         {
-            menu.EditarProducto(id, nombre, precio, cantidad);
+            clientesCSV.AgregarCliente(id, nombre, correo);
         }
 
-        public void AgregarProductoAlMenu(int id, string nombre, decimal precio, int cantidad)
+        // Opción 6: Imprimir lista de clientes
+        public void ImprimirClientes()
         {
-            Producto nuevoProducto = new Producto(id, nombre, precio, cantidad);
-            menu.AgregarProducto(nuevoProducto);
+            clientesCSV.ImprimirClientes();
         }
     }
 }

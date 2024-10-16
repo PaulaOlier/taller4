@@ -6,96 +6,107 @@ namespace Taller4
 {
     public class Menu
     {
-        private List<Producto> productos; // Lista que almacena los productos del menú
+        private List<Producto> productos; // Lista de productos en el menú
 
+        // Constructor que carga los productos desde el archivo CSV
         public Menu()
         {
-            productos = new List<Producto>(); // Inicializa la lista de productos
-            // Carga los productos desde un archivo CSV usando la ruta especificada
-            CargarMenuDesdeCSV(@"D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\menu.csv"); 
+            productos = new List<Producto>();
+            CargarProductosDesdeCSV(@"D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\menu.csv");
         }
 
-        // Método privado para cargar el menú desde un archivo CSV
-        private void CargarMenuDesdeCSV(string archivo)
+        // Método para cargar productos desde un archivo CSV
+        public void CargarProductosDesdeCSV(string rutaArchivo)
         {
-            // Verifica si el archivo existe en la ruta especificada
-            if (File.Exists(archivo))
+            try
             {
-                // Lee todas las líneas del archivo CSV
-                string[] lineas = File.ReadAllLines(archivo);
-                // Itera sobre cada línea del archivo
-                foreach (var linea in lineas)
+                using (var lector = new StreamReader(rutaArchivo))
                 {
-                    // Divide la línea en datos utilizando la coma como separador
-                    var datos = linea.Split(',');
-                    // Verifica que la línea tenga 4 elementos y que sean del tipo adecuado
-                    if (datos.Length == 4 && 
-                        int.TryParse(datos[0], out int id) && 
-                        decimal.TryParse(datos[2], out decimal precio) && 
-                        int.TryParse(datos[3], out int cantidad))
+                    while (!lector.EndOfStream)
                     {
-                        // Crea un nuevo producto y lo agrega a la lista
-                        var producto = new Producto(id, datos[1], precio, cantidad);
-                        productos.Add(producto);
+                        var linea = lector.ReadLine();
+                        var datos = linea.Split(',');
+
+                        // Asegúrate de que el archivo tenga el formato correcto
+                        if (datos.Length == 4)
+                        {
+                            int id = int.Parse(datos[0]);
+                            string nombre = datos[1];
+                            decimal precio = decimal.Parse(datos[2]);
+                            int cantidad = int.Parse(datos[3]);
+
+                            Producto producto = new Producto(id, nombre, precio, cantidad);
+                            productos.Add(producto);
+                        }
                     }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                // Mensaje de error si el archivo no existe
-                Console.WriteLine("El archivo de menú no existe en la ruta especificada.");
+                Console.WriteLine("Error al cargar productos desde el CSV: " + ex.Message);
             }
         }
 
-        // Método para imprimir el menú en la consola
+        // Método para imprimir el menú completo
         public void ImprimirMenu()
         {
-            Console.WriteLine("\n\t\t\t===== Menú del Restaurante =====");
-            // Itera sobre cada producto y lo imprime
+            Console.WriteLine("Menú del Restaurante:");
             foreach (var producto in productos)
             {
-                // Verificamos si el producto está agotado o con bajo stock
-            if (producto.EstaAgotado())
-            {
-                Console.WriteLine($"\t\t\t{producto.ToString()} [AGOTADO]");
+                Console.WriteLine(producto.ToString()); // Llama al ToString de Producto para mostrar la información
             }
-            else if (producto.StockBajo())
-            {
-                Console.WriteLine($"\t\t\t{producto.ToString()} [BAJO STOCK]");
-            }
-            else
-            {
-                Console.WriteLine($"\t\t\t{producto.ToString()}");
-            }
-            }
-            Console.WriteLine("\t\t\t================================");
         }
 
         // Método para buscar un producto por su ID
-        public Producto? BuscarProductoPorId(int id) => productos.Find(p => p.GetId() == id);
-
-        // Método para agregar un nuevo producto al menú
-        public void AgregarProducto(Producto nuevoProducto)
+        public Producto BuscarProductoPorId(int id)
         {
-            productos.Add(nuevoProducto); // Agrega el nuevo producto a la lista
-            Console.WriteLine("Producto agregado al menú.");
+            return productos.Find(p => p.GetId() == id);
         }
 
-        // Método para editar un producto existente
-        public void EditarProducto(int id, string nombre, decimal precio, int cantidad)
+        // Método para editar un producto en el menú
+        public void EditarProducto(int id, string nuevoNombre, decimal nuevoPrecio, int nuevaCantidad)
         {
-            // Busca el producto por su ID
-            Producto? producto = productos.Find(p => p.GetId() == id);
+            Producto producto = BuscarProductoPorId(id);
             if (producto != null)
             {
-                // Actualiza la cantidad del producto
-                producto.SetCantidad(cantidad); 
-                Console.WriteLine("Producto actualizado.");
+                producto.SetNombre(nuevoNombre);
+                producto.SetPrecio(nuevoPrecio);
+                producto.SetCantidad(nuevaCantidad);
+
+                // Actualiza el archivo CSV después de editar el producto
+                GuardarProductosEnCSV(@"D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\menu.csv");
             }
             else
             {
-                // Mensaje de error si no se encuentra el producto
                 Console.WriteLine("Producto no encontrado.");
+            }
+        }
+
+        // Método para agregar un producto al menú
+        public void AgregarProducto(Producto producto)
+        {
+            productos.Add(producto);
+            // Guarda el nuevo producto en el archivo CSV
+            GuardarProductosEnCSV(@"D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\menu.csv");
+        }
+
+        // Método para guardar todos los productos en el archivo CSV
+        private void GuardarProductosEnCSV(string rutaArchivo)
+        {
+            try
+            {
+                using (var escritor = new StreamWriter(rutaArchivo))
+                {
+                    foreach (var producto in productos)
+                    {
+                        // Escribe cada producto en el formato correcto
+                        escritor.WriteLine($"{producto.GetId()},{producto.GetNombre()},{producto.GetPrecio()},{producto.GetCantidad()}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al guardar productos en el CSV: " + ex.Message);
             }
         }
     }

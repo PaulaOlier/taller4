@@ -1,39 +1,30 @@
-using System;
-
-namespace Taller4
+public class Producto
 {
-    public class Producto
+    private int Id { get; set; }
+    private string Nombre { get; set; }
+    private decimal Precio { get; set; }
+    private int Cantidad { get; set; }
+
+    // Constructor
+    public Producto(int id, string nombre, decimal precio, int cantidad)
     {
-        private int Id { get; set; } // Identificador único del producto
-        private string Nombre { get; set; } // Nombre del producto
-        private decimal Precio { get; set; } // Precio del producto
-        private int Cantidad { get; set; } // Cantidad disponible en inventario
-
-        // Constructor para inicializar un producto
-        public Producto(int id, string nombre, decimal precio, int cantidad)
-        {
-            Id = id; 
-            Nombre = nombre; 
-            Precio = precio; 
-            Cantidad = cantidad; 
-        }
-
-        // Getters y Setters
-        public int GetId() => Id; // Retorna el ID del producto
-        public string GetNombre() => Nombre; // Retorna el nombre del producto
-        public decimal GetPrecio() => Precio; // Retorna el precio del producto
-        public int GetCantidad() => Cantidad; // Retorna la cantidad disponible
-
-        // Establece la cantidad del producto
-        public void SetCantidad(int cantidad) => Cantidad = cantidad;
-
-        // Verificar si el producto está agotado
-        public bool EstaAgotado() => Cantidad == 0;
-
-        // Verificar si el stock es bajo (puede definir el umbral)
-       public bool StockBajo() => Cantidad > 0 && Cantidad < 3;
-
-        // Método para representar el producto como una cadena
-        public override string ToString() => $"{Id}. {Nombre} - ${Precio} (Cantidad: {Cantidad})";
+        Id = id;
+        Nombre = nombre;
+        Precio = precio;
+        Cantidad = cantidad;
     }
+
+    // Métodos públicos para obtener los valores
+    public int GetId() => Id;
+    public string GetNombre() => Nombre;
+    public decimal GetPrecio() => Precio;
+    public int GetCantidad() => Cantidad;
+
+    // Métodos públicos para establecer los valores
+    public void SetNombre(string nombre) => Nombre = nombre;
+    public void SetPrecio(decimal precio) => Precio = precio;
+    public void SetCantidad(int cantidad) => Cantidad = cantidad;
+
+    // Método ToString
+    public override string ToString() => $"{Id}. {Nombre} - ${Precio} (Cantidad: {Cantidad})";
 }
