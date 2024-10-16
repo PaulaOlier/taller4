@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Taller4
 {
@@ -7,23 +9,100 @@ namespace Taller4
     {
         private List<Producto> productos;
 
-        public Menu()
+        // Constructor que carga el menú desde el archivo CSV
+        public Menu(string rutaArchivo)
         {
-            productos = new List<Producto>
-            {
-                new Producto(1, "Hamburguesa", 8.99),
-                new Producto(2, "Pizza", 12.99),
-                new Producto(3, "Ensalada", 6.50),
-                new Producto(4, "Soda", 2.00)
-            };
+            productos = new List<Producto>();
+            CargarMenuDesdeArchivo(rutaArchivo);
         }
 
-        public List<Producto> GetProductos() => productos;
-
-        // Buscar un producto por su ID
-        public Producto GetProducto(int id)
+        // Cargar el menú desde un archivo CSV
+        private void CargarMenuDesdeArchivo(string rutaArchivo)
         {
-            return productos.Find(p => p.GetId() == id);
+            if (!File.Exists(rutaArchivo))
+            {
+                Console.WriteLine("El archivo de menú no existe.");
+                return;
+            }
+
+            var lineas = File.ReadAllLines(rutaArchivo);
+            foreach (var linea in lineas)
+            {
+                var datos = linea.Split(',');
+                if (datos.Length == 4)
+                {
+                    int id = int.Parse(datos[0]);
+                    string nombre = datos[1];
+                    double precio = double.Parse(datos[2]);
+                    int cantidad = int.Parse(datos[3]);
+
+                    var producto = new Producto(id, nombre, precio, cantidad);
+                    productos.Add(producto);
+                }
+            }
+        }
+
+        // Mostrar todos los productos en el menú
+        public void MostrarMenu()
+        {
+            if (productos == null || productos.Count == 0)
+            {
+                Console.WriteLine("El menú está vacío.");
+                return;
+            }
+
+            Console.WriteLine("\n--- Menú ---");
+            foreach (var producto in productos)
+            {
+                Console.WriteLine($"ID: {producto.GetId()}, Nombre: {producto.GetNombre()}, Precio: ${producto.GetPrecio()}, Cantidad: {producto.GetCantidad()}");
+            }
+        }
+
+        // Obtener un producto por su ID, devolviendo null si no existe
+        public Producto ObtenerProductoPorId(int id)
+        {
+            return productos?.FirstOrDefault(p => p.GetId() == id);
+        }
+
+        // Agregar un producto al menú
+        public void AgregarProducto(Producto producto)
+        {
+            if (producto != null)
+            {
+                productos.Add(producto);
+                GuardarMenuEnArchivo();
+            }
+            else
+            {
+                Console.WriteLine("El producto no puede ser nulo.");
+            }
+        }
+
+        // Editar un producto en el menú
+        public void EditarProducto(int id, string nuevoNombre, double nuevoPrecio, int nuevaCantidad)
+        {
+            var producto = ObtenerProductoPorId(id);
+            if (producto != null)
+            {
+                producto.SetNombre(nuevoNombre);
+                producto.SetPrecio(nuevoPrecio);
+                producto.SetCantidad(nuevaCantidad);
+                GuardarMenuEnArchivo();
+            }
+            else
+            {
+                Console.WriteLine("Producto no encontrado.");
+            }
+        }
+
+        // Guardar el menú de nuevo en el archivo CSV
+        private void GuardarMenuEnArchivo()
+        {
+            if (productos != null && productos.Count > 0)
+            {
+                var lineas = productos.Select(p => $"{p.GetId()},{p.GetNombre()},{p.GetPrecio()},{p.GetCantidad()}");
+                File.WriteAllLines("menu.csv", lineas);
+            }
         }
     }
 }

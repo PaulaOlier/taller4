@@ -10,7 +10,7 @@ namespace Taller4
 
         public Programa()
         {
-            restaurante = new Restaurante(5);  // Crear un restaurante con 5 mesas
+            restaurante = new Restaurante(5, "menu.csv");  // Crear un restaurante con 5 mesas
             asciiArt = new AsciiArt();
         }
 
@@ -71,7 +71,7 @@ namespace Taller4
 
         private void MostrarMenu()
         {
-            restaurante.MostrarMenu();
+            restaurante.GetMenu().MostrarMenu();
         }
 
         private void AsignarClienteAMesa()
@@ -94,7 +94,7 @@ namespace Taller4
             }
 
             Cliente cliente = new Cliente(nombreCliente, fechaNacimiento);
-            restaurante.AsignarClienteAMesa(numeroMesa, cliente);  // Aquí no guardamos el resultado en un bool
+            restaurante.AsignarClienteAMesa(numeroMesa, cliente);
 
             Console.WriteLine($"Cliente {cliente.GetNombre()} asignado a la mesa {numeroMesa}.");
         }
@@ -130,25 +130,27 @@ namespace Taller4
                 int idProducto;
                 while (!int.TryParse(Console.ReadLine(), out idProducto))
                 {
-                    Console.WriteLine("ID de producto inválido. Intente nuevamente:");
+                    Console.WriteLine("ID de producto inválido. Intente nuevamente.");
                 }
 
-                Console.WriteLine("Ingrese la cantidad:");
-                int cantidad;
-                while (!int.TryParse(Console.ReadLine(), out cantidad) || cantidad <= 0)
-                {
-                    Console.WriteLine("Cantidad inválida. Intente nuevamente:");
-                }
+                Producto producto = restaurante.GetMenu().ObtenerProductoPorId(idProducto);
 
-                Factura factura = restaurante.GetFacturas().FirstOrDefault(f => f.GetCliente() == cliente);
-                if (factura != null)
+                if (producto != null)
                 {
-                    restaurante.AgregarProductoAFactura(factura, idProducto, cantidad);
-                    Console.WriteLine("Producto agregado a la factura.");
+                    Factura factura = restaurante.GetFacturas().FirstOrDefault(f => f.GetCliente().GetNombre() == cliente.GetNombre());
+                    if (factura != null)
+                    {
+                        factura.AgregarProducto(producto);
+                        Console.WriteLine($"Producto {producto.GetNombre()} agregado a la factura.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Factura no encontrada.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Factura no encontrada para el cliente.");
+                    Console.WriteLine("Producto no encontrado.");
                 }
             }
             else
@@ -159,26 +161,23 @@ namespace Taller4
 
         private void MostrarFacturas()
         {
-            if (restaurante.GetFacturas().Any())
+            foreach (var factura in restaurante.GetFacturas())
             {
-                restaurante.MostrarFacturas();
-            }
-            else
-            {
-                Console.WriteLine("No hay facturas registradas.");
+                Console.WriteLine($"Factura de {factura.GetCliente().GetNombre()}:");
+                factura.MostrarFactura();
             }
         }
 
         private void ImprimirFactura()
         {
-            Console.WriteLine("\nIngrese el nombre del cliente para imprimir la factura:");
+            Console.WriteLine("\nIngrese el nombre del cliente:");
             string nombreCliente = Console.ReadLine();
 
             Cliente cliente = restaurante.GetClientes().FirstOrDefault(c => c.GetNombre() == nombreCliente);
 
             if (cliente != null)
             {
-                Factura factura = restaurante.GetFacturas().FirstOrDefault(f => f.GetCliente() == cliente);
+                Factura factura = restaurante.GetFacturas().FirstOrDefault(f => f.GetCliente().GetNombre() == cliente.GetNombre());
                 if (factura != null)
                 {
                     factura.AplicarDescuento();

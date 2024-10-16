@@ -5,56 +5,55 @@ namespace Taller4
 {
     public class Factura
     {
-        private Cliente cliente;
-        private List<(Producto, int)> productos;  // Lista de productos y cantidades
-        private double descuento; // Descuento aplicado
-        private double totalFactura;
+        private Cliente cliente;    // El cliente asociado a esta factura
+        private List<Producto> productos;  // Lista de productos en la factura
+        private double total;  // Total de la factura
 
+        // Constructor de la factura, asociado a un cliente
         public Factura(Cliente cliente)
         {
             this.cliente = cliente;
-            productos = new List<(Producto, int)>();
-            descuento = 0;
-            totalFactura = 0;
+            this.productos = new List<Producto>();
+            this.total = 0;
         }
 
-        public Cliente GetCliente() => cliente;
-        public List<(Producto, int)> GetProductos() => productos;
-        public double GetDescuento() => descuento;
-        public double GetTotalFactura() => totalFactura;
-
-        // Añadir un producto a la factura
-        public void AgregarProducto(Producto producto, int cantidad)
+        // Método para agregar un producto a la factura
+        public void AgregarProducto(Producto producto)
         {
-            productos.Add((producto, cantidad));
-            totalFactura += producto.GetPrecio() * cantidad;
-        }
-
-        // Aplicar el descuento por cumpleaños
-        public void AplicarDescuento()
-        {
-            DateTime hoy = DateTime.Now;
-            if (cliente.EsCumpleanos(hoy) && totalFactura <= 100)
+            if (producto != null)
             {
-                descuento = totalFactura * 0.1; // 10% de descuento
-                totalFactura -= descuento;
+                productos.Add(producto);
+                total += producto.GetPrecio();
             }
         }
 
-        // Mostrar la factura
+        // Mostrar la factura (nombre del cliente, productos y total)
         public void MostrarFactura()
         {
-            Console.WriteLine("\n--- Factura ---");
-            foreach (var item in productos)
+            Console.WriteLine($"\nFactura de {cliente.GetNombre()}:");
+            foreach (var producto in productos)
             {
-                Console.WriteLine($"{item.Item1.GetNombre()} x{item.Item2} = {item.Item1.GetPrecio() * item.Item2}");
+                Console.WriteLine($"Producto: {producto.GetNombre()}, Precio: {producto.GetPrecio()}");
             }
-            Console.WriteLine($"Total: {totalFactura}");
-            if (descuento > 0)
-            {
-                Console.WriteLine($"Descuento aplicado: {descuento}");
-            }
-            Console.WriteLine($"Total con descuento: {totalFactura}");
+
+            Console.WriteLine($"Total: {total:C}");
         }
+
+        // Método para aplicar un descuento si el cliente es cumpleañero
+        public void AplicarDescuento()
+        {
+            if (cliente != null && cliente.EsCumpleaneroEsteMes())
+            {
+                double descuento = total * 0.10;  // 10% de descuento
+                total -= descuento;
+                Console.WriteLine($"Se aplicó un descuento de 10%: {descuento:C}");
+            }
+        }
+
+        // Obtener el cliente asociado a la factura
+        public Cliente GetCliente() => cliente;
+
+        // Obtener el total de la factura
+        public double GetTotal() => total;
     }
 }

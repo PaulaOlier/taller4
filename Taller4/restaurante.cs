@@ -1,95 +1,66 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Taller4
 {
     public class Restaurante
     {
-        private List<Mesa> mesas;
-        private Menu menu;
         private List<Factura> facturas;
         private List<Cliente> clientes;
+        private Menu menu;
+        private int numeroDeMesas;
 
-        public Restaurante(int cantidadMesas)
+        // Constructor
+        public Restaurante(int numeroDeMesas, string rutaArchivoMenu)
         {
-            mesas = new List<Mesa>();
-            for (int i = 0; i < cantidadMesas; i++)
-            {
-                mesas.Add(new Mesa(i + 1)); // Creamos mesas con IDs 1, 2, ...
-            }
-            menu = new Menu();
-            facturas = new List<Factura>();
-            clientes = new List<Cliente>();
+            this.numeroDeMesas = numeroDeMesas;
+            this.facturas = new List<Factura>();
+            this.clientes = new List<Cliente>();
+            this.menu = new Menu(rutaArchivoMenu);
         }
 
-        public List<Mesa> GetMesas() => mesas;
-        public Menu GetMenu() => menu;
-        public List<Factura> GetFacturas() => facturas;
-        public List<Cliente> GetClientes() => clientes;
-
-        // Asigna un cliente a una mesa
+        // Asignar cliente a una mesa
         public void AsignarClienteAMesa(int numeroMesa, Cliente cliente)
         {
-            var mesa = mesas.Find(m => m.GetNumero() == numeroMesa);
-            if (mesa != null && mesa.GetCliente() == null)
+            if (numeroMesa < 1 || numeroMesa > numeroDeMesas)
             {
-                mesa.AsignarCliente(cliente);
+                Console.WriteLine("Número de mesa no válido.");
+                return;
+            }
+
+            if (cliente != null && !clientes.Contains(cliente))
+            {
                 clientes.Add(cliente);
-                Console.WriteLine($"Cliente {cliente.GetNombre()} asignado a la mesa {numeroMesa}.");
+                Console.WriteLine($"Cliente {cliente.GetNombre()} asignado a la mesa {numeroMesa}");
             }
             else
             {
-                Console.WriteLine("La mesa ya está ocupada o no existe.");
+                Console.WriteLine("Cliente ya está asignado.");
             }
         }
 
         // Crear una factura para un cliente
         public Factura CrearFactura(Cliente cliente)
         {
-            Factura factura = new Factura(cliente);
+            if (cliente == null)
+            {
+                Console.WriteLine("Cliente inválido.");
+                return null;
+            }
+
+            var factura = new Factura(cliente);
             facturas.Add(factura);
             return factura;
         }
 
-        // Mostrar el menú de productos
-        public void MostrarMenu()
-        {
-            Console.WriteLine("\n--- Menú ---");
-            foreach (var producto in menu.GetProductos())
-            {
-                Console.WriteLine($"{producto.GetId()}. {producto.GetNombre()} - {producto.GetPrecio()}");
-            }
-        }
+        // Obtener las facturas
+        public List<Factura> GetFacturas() => facturas;
 
-        // Buscar un producto por su ID
-        public Producto BuscarProductoPorId(int id)
-        {
-            return menu.GetProductos().Find(p => p.GetId() == id);
-        }
+        // Obtener el menú
+        public Menu GetMenu() => menu;
 
-        // Agregar un producto a la factura
-        public void AgregarProductoAFactura(Factura factura, int idProducto, int cantidad)
-        {
-            Producto producto = menu.GetProducto(idProducto);
-            if (producto != null)
-            {
-                factura.AgregarProducto(producto, cantidad);
-                Console.WriteLine($"Producto {producto.GetNombre()} agregado a la factura.");
-            }
-            else
-            {
-                Console.WriteLine("Producto no encontrado.");
-            }
-        }
-
-        // Mostrar todas las facturas
-        public void MostrarFacturas()
-        {
-            Console.WriteLine("\n--- Todas las Facturas ---");
-            foreach (var factura in facturas)
-            {
-                factura.MostrarFactura();
-            }
-        }
+        // Obtener la lista de clientes
+        public List<Cliente> GetClientes() => clientes;
     }
 }
