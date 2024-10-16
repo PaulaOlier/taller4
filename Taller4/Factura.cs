@@ -15,6 +15,8 @@ namespace Taller4
         public MedioPago MedioPago { get; set; }  // Asocia un medio de pago a la factura
          public bool EstaPagada { get; set; } // Atributo bool para el estado de pago
 
+         decimal totalConImpuestos { get; set; }
+
 
      public Factura(Cliente cliente, int numeroMesa, decimal total, MedioPago medioPago)
         {
@@ -29,8 +31,6 @@ namespace Taller4
              EstaPagada = false; // Por defecto, la factura está pendiente de pago
         
         }
-
-        
 
         public Cliente GetCliente() => cliente;
         public List<(Producto, int)> GetProductos() => productos;
@@ -107,7 +107,7 @@ namespace Taller4
         }
 
         // Método que pregunta el medio de pago al usuario
-        private void PreguntarMetodoPago(decimal totalConImpuestos)
+        public void PreguntarMetodoPago(decimal totalConImpuestos)
         {
             Console.WriteLine("\n¿Cómo desea pagar?");
             Console.WriteLine("1. Tarjeta de Crédito");
@@ -170,6 +170,10 @@ namespace Taller4
 
             return new PagoTarjetaDebito(monto, numeroTarjeta, nombreTitular, fechaExpiracion);
         }
-    
+
+        internal void PreguntarMetodoPago()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

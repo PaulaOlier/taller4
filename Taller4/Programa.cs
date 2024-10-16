@@ -183,6 +183,8 @@ namespace Taller4
                 {
                     factura.AplicarDescuento();
                     factura.MostrarFactura();
+                    factura.ImprimirFactura();
+                    factura.PreguntarMetodoPago();
                 }
                 else
                 {
