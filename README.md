@@ -1,0 +1,1 @@
+Este proyecto es una aplicación web para la gestión de un restaurante. Permite a los usuarios consultar el menú y gestionar pedidos. La aplicación está diseñada para mejorar la experiencia del cliente y optimizar la gestión del personal.
