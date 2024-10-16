@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DELL NV2 PRO\\Desktop\\repositorio\\taller4\\Taller4\\Taller4.csproj": {}
+    "D:\\Downloads\\Pau\\Pau\\Semestre 2\\taller4\\taller4-1\\Taller4\\Taller4.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DELL NV2 PRO\\Desktop\\repositorio\\taller4\\Taller4\\Taller4.csproj": {
+    "D:\\Downloads\\Pau\\Pau\\Semestre 2\\taller4\\taller4-1\\Taller4\\Taller4.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DELL NV2 PRO\\Desktop\\repositorio\\taller4\\Taller4\\Taller4.csproj",
+        "projectUniqueName": "D:\\Downloads\\Pau\\Pau\\Semestre 2\\taller4\\taller4-1\\Taller4\\Taller4.csproj",
         "projectName": "Taller4",
-        "projectPath": "C:\\Users\\DELL NV2 PRO\\Desktop\\repositorio\\taller4\\Taller4\\Taller4.csproj",
-        "packagesPath": "C:\\Users\\DELL NV2 PRO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DELL NV2 PRO\\Desktop\\repositorio\\taller4\\Taller4\\obj\\",
+        "projectPath": "D:\\Downloads\\Pau\\Pau\\Semestre 2\\taller4\\taller4-1\\Taller4\\Taller4.csproj",
+        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
+        "outputPath": "D:\\Downloads\\Pau\\Pau\\Semestre 2\\taller4\\taller4-1\\Taller4\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\DELL NV2 PRO\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -64,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
