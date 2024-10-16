@@ -5,7 +5,7 @@ namespace Taller4
 {
     public class Mesa
     {
-        private Cliente cliente;
+        private Cliente? cliente;
         private List<Producto> productos;
 
         public Mesa()

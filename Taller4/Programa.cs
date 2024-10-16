@@ -30,7 +30,7 @@ namespace Taller4
                 Console.WriteLine("6. Imprimir Factura");
                 Console.WriteLine("7. Editar Producto en Menú");
 
-                string opcion = Console.ReadLine();
+                string? opcion = Console.ReadLine();
 
                 switch (opcion)
                 {
@@ -81,7 +81,15 @@ namespace Taller4
         private void AsignarClienteAMesa()
         {
             Console.WriteLine("\nIngrese el nombre del cliente:");
-            string nombre = Console.ReadLine();
+            string? nombre = Console.ReadLine();
+
+            // Verifica que el nombre no sea nulo o vacío
+            if (string.IsNullOrWhiteSpace(nombre))
+            {
+                Console.WriteLine("El nombre no puede estar vacío.");
+                return;
+            }
+
             Console.WriteLine("Ingrese la fecha de nacimiento (YYYY-MM-DD):");
             DateTime fechaNacimiento;
 
@@ -121,7 +129,15 @@ namespace Taller4
             if (mesa != null)
             {
                 Console.WriteLine("Ingrese el nombre del cliente:");
-                string nombre = Console.ReadLine();
+                string? nombre = Console.ReadLine();
+
+                // Verifica que el nombre no sea nulo o vacío
+                if (string.IsNullOrWhiteSpace(nombre))
+                {
+                    Console.WriteLine("El nombre no puede estar vacío.");
+                    return;
+                }
+
                 Console.WriteLine("Ingrese la fecha de nacimiento (YYYY-MM-DD):");
                 DateTime fechaNacimiento;
 
@@ -201,7 +217,15 @@ namespace Taller4
             }
 
             Console.WriteLine("Ingrese el nuevo nombre del producto:");
-            string nuevoNombre = Console.ReadLine();
+            string? nuevoNombre = Console.ReadLine();
+
+            // Verificar que nuevoNombre no sea nulo o vacío
+            if (string.IsNullOrWhiteSpace(nuevoNombre))
+            {
+                Console.WriteLine("El nombre del producto no puede estar vacío.");
+                return;
+            }
+
             Console.WriteLine("Ingrese el nuevo precio del producto:");
             double nuevoPrecio;
 

@@ -54,14 +54,13 @@ namespace Taller4
         {
             if (cliente == null)
             {
-                Console.WriteLine("Cliente inválido.");
-                return null;
+                throw new ArgumentNullException(nameof(cliente), "El cliente no puede ser nulo.");
             }
 
             var factura = new Factura(cliente);
             facturas.Add(factura);
-            Console.WriteLine($"Factura creada para el cliente {cliente.GetNombre()}.");
             return factura;
         }
+
     }
 }
