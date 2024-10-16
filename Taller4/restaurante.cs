@@ -5,85 +5,91 @@ namespace Taller4
 {
     public class Restaurante
     {
-        private Menu menu;
         private List<Mesa> mesas;
-        private ClientesCSV clientesCSV;
-        private const string rutaFacturas = @"D:\Downloads\Pau\Pau\Semestre 2\taller4\Taller4\facturas.csv"; // Ruta del archivo CSV para las facturas
+        private Menu menu;
+        private List<Factura> facturas;
+        private List<Cliente> clientes;
 
-        public Restaurante()
+        public Restaurante(int cantidadMesas)
         {
-            menu = new Menu();
             mesas = new List<Mesa>();
-            clientesCSV = new ClientesCSV();
-
-            // Crear 10 mesas
-            for (int i = 1; i <= 10; i++)
+            for (int i = 0; i < cantidadMesas; i++)
             {
-                Mesa mesa = new Mesa();
-                mesa.SetNumero(i);
-                mesas.Add(mesa);
+                mesas.Add(new Mesa(i + 1)); // Creamos mesas con IDs 1, 2, ...
             }
+            menu = new Menu();
+            facturas = new List<Factura>();
+            clientes = new List<Cliente>();
         }
 
-        // Opción 1: Imprimir menú
-        public void ImprimirMenu()
-        {
-            menu.ImprimirMenu();
-        }
+        public List<Mesa> GetMesas() => mesas;
+        public Menu GetMenu() => menu;
+        public List<Factura> GetFacturas() => facturas;
+        public List<Cliente> GetClientes() => clientes;
 
-        // Opción 2: Agregar producto a una mesa
-        public void AgregarProductoAMesa(int numeroMesa, int idProducto)
+        // Asigna un cliente a una mesa
+        public void AsignarClienteAMesa(int numeroMesa, Cliente cliente)
         {
-            Mesa? mesa = mesas.Find(m => m.GetNumero() == numeroMesa);
-            Producto? producto = menu.BuscarProductoPorId(idProducto);
-            if (mesa != null && producto != null)
+            var mesa = mesas.Find(m => m.GetNumero() == numeroMesa);
+            if (mesa != null && mesa.GetCliente() == null)
             {
-                mesa.AgregarProducto(producto);
+                mesa.AsignarCliente(cliente);
+                clientes.Add(cliente);
+                Console.WriteLine($"Cliente {cliente.GetNombre()} asignado a la mesa {numeroMesa}.");
             }
             else
             {
-                Console.WriteLine("Mesa o Producto no encontrado.");
+                Console.WriteLine("La mesa ya está ocupada o no existe.");
             }
         }
 
-        // Opción 3: Eliminar producto de una mesa
-        public void EliminarProducto(int numeroMesa, int idProducto)
+        // Crear una factura para un cliente
+        public Factura CrearFactura(Cliente cliente)
         {
-            Mesa? mesa = mesas.Find(m => m.GetNumero() == numeroMesa);
-            if (mesa != null)
+            Factura factura = new Factura(cliente);
+            facturas.Add(factura);
+            return factura;
+        }
+
+        // Mostrar el menú de productos
+        public void MostrarMenu()
+        {
+            Console.WriteLine("\n--- Menú ---");
+            foreach (var producto in menu.GetProductos())
             {
-                mesa.EliminarProducto(idProducto);
+                Console.WriteLine($"{producto.GetId()}. {producto.GetNombre()} - {producto.GetPrecio()}");
+            }
+        }
+
+        // Buscar un producto por su ID
+        public Producto BuscarProductoPorId(int id)
+        {
+            return menu.GetProductos().Find(p => p.GetId() == id);
+        }
+
+        // Agregar un producto a la factura
+        public void AgregarProductoAFactura(Factura factura, int idProducto, int cantidad)
+        {
+            Producto producto = menu.GetProducto(idProducto);
+            if (producto != null)
+            {
+                factura.AgregarProducto(producto, cantidad);
+                Console.WriteLine($"Producto {producto.GetNombre()} agregado a la factura.");
             }
             else
             {
-                Console.WriteLine("Mesa no encontrada.");
+                Console.WriteLine("Producto no encontrado.");
             }
         }
 
-        // Opción 4: Imprimir cuenta de mesa
-        public void ImprimirCuentaMesa(int numeroMesa)
+        // Mostrar todas las facturas
+        public void MostrarFacturas()
         {
-            Mesa? mesa = mesas.Find(m => m.GetNumero() == numeroMesa);
-            if (mesa != null)
+            Console.WriteLine("\n--- Todas las Facturas ---");
+            foreach (var factura in facturas)
             {
-                mesa.ImprimirCuenta();
+                factura.MostrarFactura();
             }
-            else
-            {
-                Console.WriteLine("Mesa no encontrada.");
-            }
-        }
-
-        // Opción 5: Agregar cliente
-        public void AgregarCliente(int id, string nombre, string correo)
-        {
-            clientesCSV.AgregarCliente(id, nombre, correo);
-        }
-
-        // Opción 6: Imprimir lista de clientes
-        public void ImprimirClientes()
-        {
-            clientesCSV.ImprimirClientes();
         }
     }
 }

@@ -1,61 +1,60 @@
 using System;
-using System.IO;
-using Taller4;
+using System.Collections.Generic;
 
 namespace Taller4
 {
     public class Factura
     {
-        public int NumeroMesa { get; set; }
-        public decimal Total { get; set; }
-        public DateTime Fecha { get; set; }
-        public bool EstaPagada { get; set; } // Nuevo atributo para indicar el estado de la factura
-         
-       
+        private Cliente cliente;
+        private List<(Producto, int)> productos;  // Lista de productos y cantidades
+        private double descuento; // Descuento aplicado
+        private double totalFactura;
 
-        public Factura(int numeroMesa, decimal total)
+        public Factura(Cliente cliente)
         {
-            NumeroMesa = numeroMesa;
-            Total = total;
-            Fecha = DateTime.Now;
-            EstaPagada=false;
+            this.cliente = cliente;
+            productos = new List<(Producto, int)>();
+            descuento = 0;
+            totalFactura = 0;
         }
 
-        // Método para guardar la factura en un archivo CSV
-        public void GuardarFactura(string ruta)
+        public Cliente GetCliente() => cliente;
+        public List<(Producto, int)> GetProductos() => productos;
+        public double GetDescuento() => descuento;
+        public double GetTotalFactura() => totalFactura;
+
+        // Añadir un producto a la factura
+        public void AgregarProducto(Producto producto, int cantidad)
         {
-            string estadoPago = EstaPagada ? "Pagada" : "Pendiente"; // Convierte el estado a texto
-            string linea = $"{NumeroMesa},{Total},{Fecha}";
-            File.AppendAllText(ruta, linea + Environment.NewLine);
+            productos.Add((producto, cantidad));
+            totalFactura += producto.GetPrecio() * cantidad;
         }
 
-          // Método para marcar la factura como pagada
-        public void MarcarComoPagado()
+        // Aplicar el descuento por cumpleaños
+        public void AplicarDescuento()
         {
-            EstaPagada = true; // Cambia el estado a pagado
+            DateTime hoy = DateTime.Now;
+            if (cliente.EsCumpleanos(hoy) && totalFactura <= 100)
+            {
+                descuento = totalFactura * 0.1; // 10% de descuento
+                totalFactura -= descuento;
+            }
         }
 
-        // Método para imprimir la factura en formato tirilla
-        public void ImprimirFactura()
-        {    
-               
-
-            decimal impuestos = Total * 0.15m; // Ejemplo: 15% de impuestos
-            decimal propina = Total * 0.10m; // Ejemplo: 10% de propina
-            decimal totalConImpuestos = Total + impuestos + propina;
-
-            Console.WriteLine("_______________________________________"); 
-            AsciiArt.ImprimirFacturaASCII();
-            
-            Console.WriteLine($"|\t   Mesa:               \t{NumeroMesa}      |");
-            Console.WriteLine($"|\t   Subtotal:        \t{Total:C}  |");
-            Console.WriteLine($"|\t   Impuestos (15%):  \t{impuestos:C}  |");
-            Console.WriteLine($"|\t   Propina (10%):  \t{propina:C}  |");
-            Console.WriteLine($"|\t   Total:        \t{totalConImpuestos:C}  |");
-            Console.WriteLine($"|{new string('-', 20)}                  |");    
-            // Imprime el estado de pago
-            string estadoPago = EstaPagada ? "Pagada" : "Pendiente por pagar";
-            Console.WriteLine($"|   Estado de pago:  {estadoPago}  |");       
+        // Mostrar la factura
+        public void MostrarFactura()
+        {
+            Console.WriteLine("\n--- Factura ---");
+            foreach (var item in productos)
+            {
+                Console.WriteLine($"{item.Item1.GetNombre()} x{item.Item2} = {item.Item1.GetPrecio() * item.Item2}");
+            }
+            Console.WriteLine($"Total: {totalFactura}");
+            if (descuento > 0)
+            {
+                Console.WriteLine($"Descuento aplicado: {descuento}");
+            }
+            Console.WriteLine($"Total con descuento: {totalFactura}");
         }
     }
 }

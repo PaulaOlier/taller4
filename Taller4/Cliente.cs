@@ -1,24 +1,25 @@
+using System;
+
 namespace Taller4
 {
     public class Cliente
     {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Correo { get; set; }
-        public DateTime FechaRegistro { get; set; }
+        private string nombre;
+        private DateTime fechaNacimiento;
 
-        public Cliente(int id, string nombre, string correo)
+        public Cliente(string nombre, DateTime fechaNacimiento)
         {
-            Id = id;
-            Nombre = nombre;
-            Correo = correo;
-            FechaRegistro = DateTime.Now;
+            this.nombre = nombre;
+            this.fechaNacimiento = fechaNacimiento;
         }
 
-        // Método para mostrar información del cliente
-        public void MostrarInformacion()
+        public string GetNombre() => nombre;
+        public DateTime GetFechaNacimiento() => fechaNacimiento;
+
+        // Verificar si es el cumpleaños hoy
+        public bool EsCumpleanos(DateTime fecha)
         {
-            Console.WriteLine($"ID: {Id} - Nombre: {Nombre} - Correo: {Correo} - Fecha de Registro: {FechaRegistro}");
+            return fecha.Day == fechaNacimiento.Day && fecha.Month == fechaNacimiento.Month;
         }
     }
 }
